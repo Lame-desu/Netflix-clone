@@ -4,6 +4,7 @@ import ghPages from "vite-plugin-gh-pages";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/netflix-clone/",
   plugins: [react()],
+  base: "/netflix-clone/",
 });
+g;
