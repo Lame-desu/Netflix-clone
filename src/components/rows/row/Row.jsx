@@ -8,36 +8,38 @@ import YouTube from "react-youtube";
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovie] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState("");
+
   const base_url = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
         // console.log(fetchUrl);
         const request = await axios.get(fetchUrl);
-        console.log(request.data);
+        // console.log(request.data);
         // console.log("lame");
         setMovie(request.data.results);
       } catch (error) {
         console.log("there is error", error);
       }
-    }
-    fetchData();
+    })();
   }, [fetchUrl]);
 
   function handleClick(movie) {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
-      movieTrailer(movie?.title || movie?.name || movie?.original_name).then(
-        (url) => {
+      movieTrailer(movie?.title || movie?.name || movie?.original_name)
+        .then((url) => {
           console.log(url);
           const urlparams = new URLSearchParams(new URL(url).search);
           console.log(urlparams);
           console.log(urlparams.get("v"));
           setTrailerUrl(urlparams.get("v"));
-        }
-      );
+        })
+        .catch((error) => {
+          console.log("this error happened: ", error);
+        });
     }
   }
 
